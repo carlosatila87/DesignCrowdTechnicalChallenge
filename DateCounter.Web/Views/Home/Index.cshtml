@@ -1,0 +1,187 @@
+﻿@using DateCounter.Core.Models
+@using DateCounter.Core.Extensions
+@model DateCounterViewModel
+
+<h2>Task One: Weekdays Between Two Dates</h2>
+
+@if (Model.Weekdays.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    First Date
+                </th>
+                <th>
+                    Second Date
+                </th>
+                <th>
+                    Week Days Count
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Weekdays)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SecondDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BusinessDaysQuantity)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<h2>Task Two: Business Days Between Two Dates</h2>
+
+@if (Model.BusinessDaysV1.Any())
+{
+    if(Model.BusinessDaysV1.FirstOrDefault().PublicHolidaysV1.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Public Holidays
+                    </th>                
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.BusinessDaysV1.FirstOrDefault().PublicHolidaysV1)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item)
+                        </td>                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br/>
+    }        
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    First Date
+                </th>
+                <th>
+                    Second Date
+                </th>
+                <th>
+                    Business Days Count
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.BusinessDaysV1)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SecondDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BusinessDaysQuantity)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<h2>Task Three: More Holidays</h2>
+@if (Model.BusinessDaysV2.Any())
+{
+    if(Model.BusinessDaysV2.FirstOrDefault().PublicHolidaysV2.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Public Holidays
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Value
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.BusinessDaysV2.FirstOrDefault().PublicHolidaysV2)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @switch (item.Type)
+                            {
+                                case PublicHolidayType.ByOcurrence:
+                                    <text>@item.DateOcurrence.Type.GetDescription()  @item.DateOcurrence.WeekDay.ToString() of @item.DateOcurrence.Month.GetDescription()</text>
+                                    break;
+                                case PublicHolidayType.FixedDate:
+                                    <text>@item.Date</text>
+                                    break;
+                                case PublicHolidayType.MondayIfWeekend:
+                                    <text>@item.DateOcurrence.Day.ToString() of @item.DateOcurrence.Month.GetDescription()</text>
+                                    break;
+                                case PublicHolidayType.SameDay:
+                                    <text>@item.DateOcurrence.Day.ToString() of @item.DateOcurrence.Month.GetDescription()</text>
+                                    break;
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br/>
+    }        
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    First Date
+                </th>
+                <th>
+                    Second Date
+                </th>
+                <th>
+                    Business Days Count
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.BusinessDaysV2)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SecondDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BusinessDaysQuantity)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
